@@ -11,31 +11,37 @@ def run_async_tasks(
 ) -> List[Any]:
     """Run a list of async tasks."""
     tasks_to_execute: List[Any] = tasks
+
+    try:
+        # Try importing and applying nest_asyncio
+        import nest_asyncio
+        nest_asyncio.apply()
+    except ImportError:
+        # If nest_asyncio can't be imported, we'll just continue
+        # (this assumes that the environment does not have any event loop issues)
+        pass
+
+    # Get the existing event loop or create a new one
+    loop = asyncio.get_event_loop()
+
     if show_progress:
         try:
-            import nest_asyncio
             from tqdm.asyncio import tqdm
-
-            # jupyter notebooks already have an event loop running
-            # we need to reuse it instead of creating a new one
-            nest_asyncio.apply()
-            loop = asyncio.get_event_loop()
 
             async def _tqdm_gather() -> List[Any]:
                 return await tqdm.gather(*tasks_to_execute, desc=progress_bar_desc)
 
             tqdm_outputs: List[Any] = loop.run_until_complete(_tqdm_gather())
             return tqdm_outputs
-        # run the operation w/o tqdm on hitting a fatal
-        # may occur in some environments where tqdm.asyncio
-        # is not supported
+        # Run the operation without tqdm if there's an exception
+        # This might occur in environments where tqdm.asyncio is not supported
         except Exception:
             pass
 
     async def _gather() -> List[Any]:
         return await asyncio.gather(*tasks_to_execute)
 
-    outputs: List[Any] = asyncio.run(_gather())
+    outputs: List[Any] = loop.run_until_complete(_gather())
     return outputs
 
 
