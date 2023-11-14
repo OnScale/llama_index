@@ -79,6 +79,8 @@
 
 ### New Features
 
+- Allow users to set the embedding dimensions in azure cognitive vector store (#7734)
+- Added a `CodeHierarchy` text splitter (#7450)
 - `OpenAIAgent` parallel function calling (#8738)
 - Add AI assistant agent (#8735)
 - OpenAI GPT4v Abstraction (#8719)
