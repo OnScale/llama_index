@@ -23,12 +23,12 @@ python_version = "3.8"
 [tool.poetry]
 authors = ["Ryan Peach <rgpeach10@gmail.com>"]
 description = "A node parser which can create a hierarchy of all code scopes in a directory."
-keywords = ["c", "code", "cpp", "hierarchy", "html", "javascript", "python", "repo", "typescript"]
+keywords = ["c", "c_sharp", "code", "cpp", "elisp", "elm", "go", "hierarchy", "java", "javascript", "ocaml", "php", "python", "ql", "ruby", "rust", "tree-sitter", "tree-sitter-languages", "typescript"]
 license = "MIT"
 maintainers = ["ryanpeach"]
 name = "llama-index-packs-code-hierarchy"
 readme = "README.md"
-version = "0.1.1"
+version = "0.2.0"
 
 [tool.poetry.dependencies]
 python = ">=3.8.1,<3.12"
