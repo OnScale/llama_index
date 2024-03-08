@@ -39,28 +39,15 @@ COMMENT_OPTIONS: Dict[str, CommentOptions] = {
     ),
     "c": CommentOptions(comment_template="// {}", scope_method=ScopeMethod.BRACKETS),
     "cpp": CommentOptions(comment_template="// {}", scope_method=ScopeMethod.BRACKETS),
-    "elisp": CommentOptions(
-        comment_template=";; {}", scope_method=ScopeMethod.INDENTATION
-    ),
-    "elixir": CommentOptions(
-        comment_template="# {}", scope_method=ScopeMethod.INDENTATION
-    ),
-    "elm": CommentOptions(
-        comment_template="-- {}", scope_method=ScopeMethod.INDENTATION
-    ),
     "go": CommentOptions(comment_template="// {}", scope_method=ScopeMethod.BRACKETS),
     "java": CommentOptions(comment_template="// {}", scope_method=ScopeMethod.BRACKETS),
     "javascript": CommentOptions(
         comment_template="// {}", scope_method=ScopeMethod.BRACKETS
     ),
-    "ocaml": CommentOptions(
-        comment_template="(* {} *)", scope_method=ScopeMethod.INDENTATION
-    ),
     "php": CommentOptions(comment_template="// {}", scope_method=ScopeMethod.BRACKETS),
     "python": CommentOptions(
         comment_template="# {}", scope_method=ScopeMethod.INDENTATION
     ),
-    "ql": CommentOptions(comment_template="// {}", scope_method=ScopeMethod.BRACKETS),
     "ruby": CommentOptions(
         comment_template="# {}", scope_method=ScopeMethod.INDENTATION
     ),
