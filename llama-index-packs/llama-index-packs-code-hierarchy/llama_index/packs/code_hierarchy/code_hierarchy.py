@@ -1,10 +1,17 @@
 from collections import defaultdict
+import os
+from pathlib import Path
+from langchain_text_splitters import Language
 from llama_index.packs.code_hierarchy.comments import (
     create_comment_line,
     get_replacement_text,
 )
-from tree_sitter import Node
+import pkg_resources
+from pydantic import PrivateAttr
+from tree_sitter import Node, Parser, Query
 from typing import Any, Dict, List, Optional, Sequence, Tuple
+
+from tree_sitter_languages import get_language, get_parser
 
 
 from llama_index.core.bridge.pydantic import BaseModel, Field
@@ -70,6 +77,9 @@ class CodeHierarchyNodeParser(NodeParser):
             " the full text of the scope."
         ),
     )
+    _tree_sitter_parser: Parser = PrivateAttr()
+    _tree_sitter_query: Query = PrivateAttr()
+    _tree_sitter_language: Language = PrivateAttr()
 
     def __init__(
         self,
@@ -81,6 +91,18 @@ class CodeHierarchyNodeParser(NodeParser):
         chunk_min_characters: int = 80,
     ):
         callback_manager = callback_manager or CallbackManager([])
+
+        # Load the tags queries
+        scm_fname = pkg_resources.resource_filename(
+            __name__, os.path.join("queries", f"tree-sitter-{language}-tags.scm")
+        )
+        query_scm = Path(scm_fname)
+        if not query_scm.exists():
+            raise FileNotFoundError(f"Could not find the query file {query_scm}")
+        query_scm = query_scm.read_text()
+        self._tree_sitter_language = get_language(language)
+        self._tree_sitter_parser = get_parser(language)
+        self._tree_sitter_query = self._tree_sitter_language.query(query_scm)
 
         super().__init__(
             include_prev_next_rel=False,
