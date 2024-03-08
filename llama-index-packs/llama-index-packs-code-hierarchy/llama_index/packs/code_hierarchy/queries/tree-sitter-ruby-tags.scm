@@ -52,13 +52,3 @@
         name: (_) @name.definition.module)
     ]) @definition.module
 )
-
-; Calls
-
-(call method: (identifier) @name.reference.call) @reference.call
-
-(
-  [(identifier) (constant)] @name.reference.call @reference.call
-  (#is-not? local)
-  (#not-match? @name.reference.call "^(lambda|load|require|require_relative|__FILE__|__LINE__)$")
-)

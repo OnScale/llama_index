@@ -4,9 +4,6 @@
 (memberPredicate
   name: (predicateName) @name.definition.method) @definition.method
 
-(aritylessPredicateExpr
-  name: (literalId) @name.reference.call) @reference.call
-
 (module
   name: (moduleName) @name.definition.module) @definition.module
 
@@ -18,9 +15,3 @@
 
 (datatypeBranch
   name: (className) @name.definition.class) @definition.class
-
-(qualifiedRhs
-  name: (predicateName) @name.reference.call) @reference.call
-
-(typeExpr
-  name: (className) @name.reference.type) @reference.type

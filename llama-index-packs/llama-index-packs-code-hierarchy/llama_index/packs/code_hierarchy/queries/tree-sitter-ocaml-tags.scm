@@ -7,8 +7,6 @@
   (#strip! @doc "^\\(\\*\\*?\\s*|\\s\\*\\)$")
 )
 
-(module_path (module_name) @name.reference.module) @reference.module
-
 ; Modules types
 ;--------------
 
@@ -17,8 +15,6 @@
   (module_type_definition (module_type_name) @name.definition.interface) @definition.interface
   (#strip! @doc "^\\(\\*\\*?\\s*|\\s\\*\\)$")
 )
-
-(module_type_path (module_type_name) @name.reference.implementation) @reference.implementation
 
 ; Functions
 ;----------
@@ -44,19 +40,6 @@
   (#strip! @doc "^\\(\\*\\*?\\s*|\\s\\*\\)$")
 )
 
-(application_expression
-  function: (value_path (value_name) @name.reference.call)) @reference.call
-
-(infix_expression
-  left: (value_path (value_name) @name.reference.call)
-  (infix_operator) @reference.call
-  (#eq? @reference.call "@@"))
-
-(infix_expression
-  (infix_operator) @reference.call
-  right: (value_path (value_name) @name.reference.call)
-  (#eq? @reference.call "|>"))
-
 ; Operator
 ;---------
 
@@ -76,17 +59,6 @@
   (#strip! @doc "^\\(\\*\\*?\\s*|\\s\\*\\)$")
 )
 
-[
-  (prefix_operator)
-  (sign_operator)
-  (infix_operator)
-  (hash_operator)
-  (indexing_operator)
-  (let_operator)
-  (and_operator)
-  (match_operator)
-] @name.reference.call @reference.call
-
 ; Classes
 ;--------
 
@@ -99,11 +71,6 @@
   (#strip! @doc "^\\(\\*\\*?\\s*|\\s\\*\\)$")
 )
 
-[
-  (class_path (class_name) @name.reference.class)
-  (class_type_path (class_type_name) @name.reference.class)
-] @reference.class
-
 ; Methods
 ;--------
 
@@ -112,5 +79,3 @@
   (method_definition (method_name) @name.definition.method) @definition.method
   (#strip! @doc "^\\(\\*\\*?\\s*|\\s\\*\\)$")
 )
-
-(method_invocation (method_name) @name.reference.call) @reference.call

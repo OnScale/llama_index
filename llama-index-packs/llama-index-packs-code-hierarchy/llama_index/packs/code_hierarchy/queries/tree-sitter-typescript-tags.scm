@@ -15,9 +15,3 @@
 
 (interface_declaration
   name: (type_identifier) @name.definition.interface) @definition.interface
-
-(type_annotation
-  (type_identifier) @name.reference.type) @reference.type
-
-(new_expression
-  constructor: (identifier) @name.reference.class) @reference.class

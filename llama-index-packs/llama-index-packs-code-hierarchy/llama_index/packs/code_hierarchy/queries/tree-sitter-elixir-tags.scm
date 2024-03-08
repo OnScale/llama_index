@@ -34,21 +34,3 @@
   operator: "@"
   operand: (call
     target: (identifier) @ignore))
-
-; * function call
-(call
-  target: [
-   ; local
-   (identifier) @name.reference.call
-   ; remote
-   (dot
-     right: (identifier) @name.reference.call)
-  ]) @reference.call
-
-; * pipe into function call
-(binary_operator
-  operator: "|>"
-  right: (identifier) @name.reference.call) @reference.call
-
-; * modules
-(alias) @name.reference.module @reference.module
