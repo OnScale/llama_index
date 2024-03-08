@@ -5,6 +5,7 @@ Allows you to create comments for code skeletonization.
 from enum import Enum
 from typing import Dict, Tuple
 
+
 from llama_index.core.bridge.pydantic import BaseModel
 from llama_index_client import TextNode
 
@@ -135,7 +136,7 @@ def get_comment_text(node: TextNode) -> str:
     return f"Code replaced for brevity. See node_id {node.node_id}"
 
 
-def create_comment_line(cls, node: TextNode, indention_lvl: int = -1) -> str:
+def create_comment_line(node: TextNode, indention_lvl: int = -1) -> str:
     """
     Creates a comment line for a node.
 
@@ -159,12 +160,12 @@ def create_comment_line(cls, node: TextNode, indention_lvl: int = -1) -> str:
         first_indentation_lvl += 1
     return (
         indentation_char * indentation_count_per_lvl * first_indentation_lvl
-        + comment_options.comment_template.format(cls._get_comment_text(node))
+        + comment_options.comment_template.format(get_comment_text(node))
         + "\n"
     )
 
 
-def get_replacement_text(cls, child_node: TextNode) -> str:
+def get_replacement_text(child_node: TextNode) -> str:
     """
     Manufactures a the replacement text to use to skeletonize a given child node.
     """
@@ -193,7 +194,7 @@ def get_replacement_text(cls, child_node: TextNode) -> str:
         replacement_txt += " {\n"
         replacement_txt += (
             indentation_char * indentation_count_per_lvl * (first_indentation_lvl + 1)
-            + comment_options.comment_template.format(cls._get_comment_text(child_node))
+            + comment_options.comment_template.format(get_comment_text(child_node))
             + "\n"
         )
         replacement_txt += (
@@ -204,7 +205,7 @@ def get_replacement_text(cls, child_node: TextNode) -> str:
         replacement_txt += "\n"
         replacement_txt += indentation_char * indentation_count_per_lvl * (
             first_indentation_lvl + 1
-        ) + comment_options.comment_template.format(cls._get_comment_text(child_node))
+        ) + comment_options.comment_template.format(get_comment_text(child_node))
 
     # TODO: Add back in when we have an HTML scm file
     # elif comment_options.scope_method == ScopeMethod.HTML_END_TAGS:

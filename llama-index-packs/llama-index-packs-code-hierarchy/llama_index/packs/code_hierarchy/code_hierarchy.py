@@ -21,7 +21,6 @@ class _ScopeItem(BaseModel):
 
     name: str
     type: str
-    signature: str
 
 
 class _ChunkNodeOutput(BaseModel):
@@ -93,11 +92,20 @@ class CodeHierarchyNodeParser(NodeParser):
             skeleton=skeleton,
         )
 
-    def _get_node_name(self, node: Node) -> str:
+    def _get_node_name(self, node: Node, captures: List[Tuple[Node, str]]) -> str:
         """Get the name of a node."""
-        raise NotImplementedError("Get from scm file")
+        assert captures[0][1].startswith(
+            "definition"
+        ), "First capture must be a definition"
+        tag = captures[0][1]
+        for capture in captures[1:]:
+            if capture[1] == f"name.{tag}":
+                return capture[0].text
+        raise ValueError("Could not find a name capture")
 
-    def _get_node_signature(self, text: str, node: Node) -> str:
+    def _get_node_signature(
+        self, text: str, node: Node, captures: List[Tuple[Node, str]]
+    ) -> str:
         """Get the signature of a node."""
         raise NotImplementedError("Get from scm file")
 
@@ -142,16 +150,21 @@ class CodeHierarchyNodeParser(NodeParser):
                 this_document=None, all_documents=[], upstream_children_documents=[]
             )
 
+        # If we are continuing, query the text of the node
+        captures = list(self._tree_sitter_query.captures(parent))
+
         # TIP: This is a wonderful place to put a debug breakpoint when
         #      Trying to integrate a new language. Pay attention to parent.type to learn
         #      all the available node types and their hierarchy.
-        if parent.type in self.signature_identifiers or _root:
+        if (captures and captures[0][1].startswith("definition")) or _root:
             # Get the new context
             if not _root:
                 new_context = _ScopeItem(
-                    name=self._get_node_name(parent),
+                    name=self._get_node_name(node=parent, captures=captures),
                     type=parent.type,
-                    signature=self._get_node_signature(text=text, node=parent),
+                    signature=self._get_node_signature(
+                        text=text, node=parent, captures=captures
+                    ),
                 )
                 _context_list.append(new_context)
             this_document = TextNode(
@@ -307,29 +320,13 @@ class CodeHierarchyNodeParser(NodeParser):
         """
         out: List[BaseNode] = []
 
-        try:
-            import tree_sitter_languages
-        except ImportError:
-            raise ImportError(
-                "Please install tree_sitter_languages to use CodeSplitter."
-            )
-
-        try:
-            parser = tree_sitter_languages.get_parser(self.language)
-        except Exception as e:
-            print(
-                f"Could not get parser for language {self.language}. Check "
-                "https://github.com/grantjenks/py-tree-sitter-languages#license "
-                "for a list of valid languages."
-            )
-            raise e  # noqa: TRY201
-
         nodes_with_progress = get_tqdm_iterable(
             nodes, show_progress, "Parsing documents into nodes"
         )
+
         for node in nodes_with_progress:
             text = node.text
-            tree = parser.parse(bytes(text, "utf-8"))
+            tree = self._tree_sitter_parser.parse(bytes(text, "utf-8"))
 
             if (
                 not tree.root_node.children
