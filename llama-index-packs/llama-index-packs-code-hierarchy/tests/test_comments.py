@@ -1,5 +1,7 @@
+from pathlib import Path
+from llama_index.packs.code_hierarchy.comments import COMMENT_OPTIONS, get_indentation
 import pytest
-from llama_index.packs.code_hierarchy import CodeHierarchyNodeParser
+import re
 
 
 def test_space_indentation() -> None:
@@ -13,7 +15,7 @@ def function():
         indent_char,
         count_per_indent,
         first_indent_level,
-    ) = CodeHierarchyNodeParser._get_indentation(text)
+    ) = get_indentation(text)
     assert indent_char == " "
     assert count_per_indent == 4
     assert first_indent_level == 0
@@ -30,7 +32,7 @@ def function():
         indent_char,
         count_per_indent,
         first_indent_level,
-    ) = CodeHierarchyNodeParser._get_indentation(text)
+    ) = get_indentation(text)
     assert indent_char == "\t"
     assert count_per_indent == 1
     assert first_indent_level == 0
@@ -47,7 +49,7 @@ def test_tab_indentation_2() -> None:
         indent_char,
         count_per_indent,
         first_indent_level,
-    ) = CodeHierarchyNodeParser._get_indentation(text)
+    ) = get_indentation(text)
     assert indent_char == "\t"
     assert count_per_indent == 1
     assert first_indent_level == 1
@@ -61,7 +63,7 @@ def function():
         print("Second level of indentation")
 """
     with pytest.raises(ValueError, match="Mixed indentation found."):
-        CodeHierarchyNodeParser._get_indentation(text)
+        get_indentation(text)
 
 
 def test_mixed_indentation_2() -> None:
@@ -72,7 +74,7 @@ def test_mixed_indentation_2() -> None:
         print("Second level of indentation")
 """
     with pytest.raises(ValueError, match="Mixed indentation found."):
-        CodeHierarchyNodeParser._get_indentation(text)
+        get_indentation(text)
 
 
 def test_no_indentation() -> None:
@@ -84,7 +86,7 @@ print("No indentation")
         indent_char,
         count_per_indent,
         first_indent_level,
-    ) = CodeHierarchyNodeParser._get_indentation(text)
+    ) = get_indentation(text)
     assert indent_char == " "
     assert count_per_indent == 4
     assert first_indent_level == 0
@@ -102,7 +104,7 @@ class Example {
         indent_char,
         count_per_indent,
         first_indent_level,
-    ) = CodeHierarchyNodeParser._get_indentation(text)
+    ) = get_indentation(text)
     assert indent_char == " "
     assert count_per_indent == 4
     assert first_indent_level == 0
@@ -127,7 +129,17 @@ function baz() {
         indent_char,
         count_per_indent,
         first_indent_level,
-    ) = CodeHierarchyNodeParser._get_indentation(text)
+    ) = get_indentation(text)
     assert indent_char == " "
     assert count_per_indent == 4
     assert first_indent_level == 0
+
+
+def test_all_languages_supported():
+    """Checks that all languages in the queries folder are represented in the comments.py file."""
+    # Load all files from ../queries
+    for file in (Path(__file__).parent.parent / "queries").glob("*.scm"):
+        # The language name is in the capture group tree-sitter-(.*)-tags.scm
+        language = re.match(r"tree-sitter-(.*)-tags.scm", file.name).group(1)
+        # Check that the language is in the COMMENT_OPTIONS
+        assert language in COMMENT_OPTIONS
