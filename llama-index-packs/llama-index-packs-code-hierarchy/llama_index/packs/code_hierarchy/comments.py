@@ -18,6 +18,7 @@ class ScopeMethod(Enum):
 
     INDENTATION = "INDENTATION"
     BRACKETS = "BRACKETS"
+    HTML_END_TAGS = "HTML_END_TAGS"
 
 
 class CommentOptions(BaseModel):
@@ -193,25 +194,6 @@ def get_replacement_text(child_node: TextNode) -> str:
         replacement_txt += indentation_char * indentation_count_per_lvl * (
             first_indentation_lvl + 1
         ) + comment_options.comment_template.format(get_comment_text(child_node))
-
-    # TODO: Add back in when we have an HTML scm file
-    # elif comment_options.scope_method == ScopeMethod.HTML_END_TAGS:
-    #     tag_name = child_node.metadata["inclusive_scopes"][-1]["name"]
-    #     end_tag = f"</{tag_name}>"
-    #     replacement_txt += "\n"
-    #     replacement_txt += (
-    #         indentation_char
-    #         * indentation_count_per_lvl
-    #         * (first_indentation_lvl + 1)
-    #         + comment_options.comment_template.format(
-    #             cls._get_comment_text(child_node)
-    #         )
-    #         + "\n"
-    #     )
-    #     replacement_txt += (
-    #         indentation_char * indentation_count_per_lvl * first_indentation_lvl
-    #         + end_tag
-    #     )
 
     else:
         raise KeyError(f"Unrecognized enum value {comment_options.scope_method}")
