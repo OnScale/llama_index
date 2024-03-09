@@ -43,3 +43,7 @@ We are using the following tags:
 Where star can be any number of things, like function_definition, class_definition, etc.
 
 The signature is defined by the `@definition - @body.definition` tags.
+
+# Contributing
+
+Please run `python scripts/generate_tags.py` to get output examples for each query. Please commit these files so we can know when they change and compare them.

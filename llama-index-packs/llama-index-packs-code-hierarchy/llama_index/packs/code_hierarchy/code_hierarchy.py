@@ -7,7 +7,6 @@ from llama_index.packs.code_hierarchy.comments import (
     get_replacement_text,
 )
 import pkg_resources
-from pydantic import PrivateAttr
 from tree_sitter import Node, Parser, Query
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
@@ -78,9 +77,6 @@ class CodeHierarchyNodeParser(NodeParser):
             " the full text of the scope."
         ),
     )
-    _tree_sitter_parser: Parser = PrivateAttr()
-    _tree_sitter_query: Query = PrivateAttr()
-    _tree_sitter_language: Language = PrivateAttr()
 
     def __init__(
         self,
@@ -89,21 +85,11 @@ class CodeHierarchyNodeParser(NodeParser):
         code_splitter: Optional[CodeSplitter] = None,
         callback_manager: Optional[CallbackManager] = None,
         metadata_extractor: Optional[BaseExtractor] = None,
-        chunk_min_characters: int = 80,
+        chunk_min_characters: int = 200,
     ):
         callback_manager = callback_manager or CallbackManager([])
 
         # Load the tags queries
-        scm_fname = pkg_resources.resource_filename(
-            __name__, os.path.join("queries", f"tree-sitter-{language}-tags.scm")
-        )
-        query_scm = Path(scm_fname)
-        if not query_scm.exists():
-            raise FileNotFoundError(f"Could not find the query file {query_scm}")
-        query_scm = query_scm.read_text()
-        self._tree_sitter_language = get_language(language)
-        self._tree_sitter_parser = get_parser(language)
-        self._tree_sitter_query = self._tree_sitter_language.query(query_scm)
 
         super().__init__(
             include_prev_next_rel=False,
@@ -114,6 +100,27 @@ class CodeHierarchyNodeParser(NodeParser):
             min_characters=chunk_min_characters,
             skeleton=skeleton,
         )
+
+    @property
+    def _tree_sitter_parser(self) -> Parser:
+        """Get the tree sitter parser."""
+        return get_parser(self.language)
+
+    @property
+    def _tree_sitter_query(self) -> Query:
+        scm_fname = pkg_resources.resource_filename(
+            __name__, os.path.join("queries", f"tree-sitter-{self.language}-tags.scm")
+        )
+        query_scm = Path(scm_fname)
+        if not query_scm.exists():
+            raise FileNotFoundError(f"Could not find the query file {query_scm}")
+        query_scm = query_scm.read_text()
+        return get_language(self.language).query(query_scm)
+
+    @property
+    def _tree_sitter_language(self) -> Language:
+        """Get the tree sitter language."""
+        return get_language(self.language)
 
     def _get_node_name(self, captures: List[Tuple[Node, str]]) -> str:
         """Get the name of a node."""
@@ -128,7 +135,7 @@ class CodeHierarchyNodeParser(NodeParser):
 
     def _get_node_signature(self, text: str, captures: List[Tuple[Node, str]]) -> str:
         """Get the signature of a node."""
-        definition, tag = captures[0][1]
+        definition, tag = captures[0]
         assert tag.startswith("definition"), "First capture must be a definition"
         body = None
         for capture in captures[1:]:
@@ -136,7 +143,9 @@ class CodeHierarchyNodeParser(NodeParser):
                 body = capture[0]
                 break
         if body is None:
-            raise ValueError("Could not find a body capture")
+            raise ValueError(
+                f"Could not find a body capture for definition {definition.text}"
+            )
         # The signature is the node minus the body, stripped
         signature = text[definition.start_byte : body.start_byte].strip()
         if len(signature) == 0:

@@ -5,9 +5,11 @@
   .
   [
     (method
-      name: (_) @name.definition.method) @definition.method
+      name: (_) @name.definition.method
+      body: (block) @body.definition.method) @definition.method
     (singleton_method
-      name: (_) @name.definition.method) @definition.method
+      name: (_) @name.definition.method
+      body: (block) @body.definition.method) @definition.method
   ]
   (#strip! @doc "^#\\s*")
   (#select-adjacent! @doc @definition.method)
@@ -29,13 +31,15 @@
       name: [
         (constant) @name.definition.class
         (scope_resolution
-          name: (_) @name.definition.class)
+          name: (_) @name.definition.class
+          body: (block) @body.definition.class)
       ]) @definition.class
     (singleton_class
       value: [
         (constant) @name.definition.class
         (scope_resolution
-          name: (_) @name.definition.class)
+          name: (_) @name.definition.class
+          body: (block) @body.definition.class)
       ]) @definition.class
   ]
   (#strip! @doc "^#\\s*")
@@ -49,6 +53,7 @@
     name: [
       (constant) @name.definition.module
       (scope_resolution
-        name: (_) @name.definition.module)
+        name: (_) @name.definition.module
+        body: (block) @body.definition.module)
     ]) @definition.module
 )

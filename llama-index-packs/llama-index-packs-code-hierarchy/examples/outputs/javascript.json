@@ -1,0 +1,44 @@
+[
+  {
+    "id_": "1041c8a8-ddfd-4583-bed1-dd063c7d6b2c",
+    "embedding": null,
+    "metadata": {
+      "language": "javascript",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 1656,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-javascript-tags.js",
+      "file_name": "tree-sitter-javascript-tags.js",
+      "file_type": "text/javascript",
+      "file_size": 1656,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "1": {
+        "node_id": "6a2540eb-758a-4e59-8133-1367383a2922",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-javascript-tags.js",
+          "file_name": "tree-sitter-javascript-tags.js",
+          "file_type": "text/javascript",
+          "file_size": 1656,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "3b413ac4f49de39ff13a8d06e4784ceacd1f7b87b45002a0a97061beae814f4a",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "// JavaScript Example showcasing various language structures\n\n// Class definition\nclass Circle {\n  constructor(radius) {\n    this.radius = radius;\n  }\n\n  // Method\n  getArea() {\n    return Math.PI * this.radius ** 2;\n  }\n\n  // Static method\n  static calculateArea(radius) {\n    return Math.PI * radius ** 2;\n  }\n}\n\n// Inheritance\nclass Cylinder extends Circle {\n  constructor(radius, height) {\n    super(radius); // Call the superclass constructor\n    this.height = height;\n  }\n\n  // Overriding method\n  getArea() {\n    // Surface area of the cylinder\n    return 2 * Math.PI * this.radius * this.height + 2 * super.getArea();\n  }\n\n  // New method specific to Cylinder\n  getVolume() {\n    return super.getArea() * this.height;\n  }\n}\n\n// Function\nfunction calculateVolume(radius, height) {\n  let circle = new Circle(radius);\n  return circle.getArea() * height;\n}\n\n// Arrow function\nconst calculateCircumference = (radius) => {\n  return 2 * Math.PI * radius;\n};\n\n// Using an array and map function\nconst numbers = [1, 2, 3, 4, 5];\nconst squares = numbers.map((number) => number ** 2);\n\n// IIFE (Immediately Invoked Function Expression)\n(() => {\n  console.log(\"This code runs immediately upon definition.\");\n})();\n\n// Main block\n(() => {\n  const circle = new Circle(5);\n  console.log(\"Circle area:\", circle.getArea());\n\n  const cylinder = new Cylinder(5, 10);\n  console.log(\"Cylinder area:\", cylinder.getArea());\n  console.log(\"Cylinder volume:\", cylinder.getVolume());\n\n  console.log(\"Volume (function):\", calculateVolume(5, 10));\n  console.log(\"Circumference (arrow function):\", calculateCircumference(5));\n\n  console.log(\"Numbers squared:\", squares);\n})();\n",
+    "start_char_idx": 0,
+    "end_char_idx": 1656,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]

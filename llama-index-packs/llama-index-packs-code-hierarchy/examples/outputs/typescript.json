@@ -1,0 +1,44 @@
+[
+  {
+    "id_": "981660be-18c3-4a5b-be76-741ee3fdaedd",
+    "embedding": null,
+    "metadata": {
+      "language": "typescript",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 1668,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-typescript-tags.ts",
+      "file_name": "tree-sitter-typescript-tags.ts",
+      "file_type": "text/vnd.trolltech.linguist",
+      "file_size": 1668,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "1": {
+        "node_id": "eacc9475-1553-46fe-bcef-c85f4b997086",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-typescript-tags.ts",
+          "file_name": "tree-sitter-typescript-tags.ts",
+          "file_type": "text/vnd.trolltech.linguist",
+          "file_size": 1668,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "b0879333c24bb5705be8d6d3843a706fc8b8fd7ec0055fde6b62f15297620432",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "// TypeScript Example showcasing various language structures\n\n// Interface definition\ninterface Shape {\n  getArea(): number;\n}\n\n// Class definition\nclass Circle implements Shape {\n  radius: number;\n\n  // Constructor\n  constructor(radius: number) {\n    this.radius = radius;\n  }\n\n  // Method implementing the Shape interface\n  getArea(): number {\n    return Math.PI * this.radius ** 2;\n  }\n\n  // Static method\n  static calculateArea(radius: number): number {\n    return Math.PI * radius ** 2;\n  }\n}\n\n// Inheritance\nclass Cylinder extends Circle {\n  height: number;\n\n  // Constructor\n  constructor(radius: number, height: number) {\n    super(radius); // Call the superclass constructor\n    this.height = height;\n  }\n\n  // Overriding method\n  getArea(): number {\n    // Surface area of the cylinder\n    return 2 * Math.PI * this.radius * this.height + 2 * super.getArea();\n  }\n\n  // New method specific to Cylinder\n  getVolume(): number {\n    return super.getArea() * this.height;\n  }\n}\n\n// Enum example\nenum Day {\n  Monday,\n  Tuesday,\n  Wednesday,\n  Thursday,\n  Friday,\n  Saturday,\n  Sunday,\n}\n\n// Generic function\nfunction printArray<T>(array: T[]): void {\n  console.log(array.join(\", \"));\n}\n\n// Main block\n(() => {\n  const circle: Circle = new Circle(5);\n  console.log(\"Circle area:\", circle.getArea());\n\n  const cylinder: Cylinder = new Cylinder(5, 10);\n  console.log(\"Cylinder area:\", cylinder.getArea());\n  console.log(\"Cylinder volume:\", cylinder.getVolume());\n\n  // Using enum\n  const today: Day = Day.Monday;\n  console.log(\"Today is:\", Day[today]);\n\n  // Using generics\n  printArray<number>([1, 2, 3, 4, 5]);\n  printArray<string>([\"Hello\", \"TypeScript\"]);\n})();\n",
+    "start_char_idx": 0,
+    "end_char_idx": 1668,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]

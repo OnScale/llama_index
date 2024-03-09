@@ -1,0 +1,42 @@
+[
+  {
+    "id_": "33127c36-69a1-4355-b3cb-ba1c2644fbf6",
+    "embedding": null,
+    "metadata": {
+      "language": "go",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 1636,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-go-tags.go",
+      "file_name": "tree-sitter-go-tags.go",
+      "file_size": 1636,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "1": {
+        "node_id": "3a3bb6a5-d897-4954-a9e3-b4c6b73c2801",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-go-tags.go",
+          "file_name": "tree-sitter-go-tags.go",
+          "file_size": 1636,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "1c5093e74ccb194f3d478dccc6461651a305c4445b40ecb0bb33c90581efe65c",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "// Go Example showcasing various language structures\n\npackage main\n\nimport (\n    \"fmt\"\n    \"math\"\n)\n\n// Function definition\nfunc calculateArea(radius float64) float64 {\n    return math.Pi * radius * radius\n}\n\n// Struct definition\ntype Circle struct {\n    Radius float64\n}\n\n// Method (function with a receiver)\nfunc (c Circle) Area() float64 {\n    return math.Pi * c.Radius * c.Radius\n}\n\n// Interface definition\ntype Shape interface {\n    Area() float64\n}\n\n// Inheritance is not directly supported in Go, but we can achieve polymorphism with interfaces\ntype Cylinder struct {\n    Circle // Embedding (Composition)\n    Height float64\n}\n\n// Method overriding\nfunc (c Cylinder) Area() float64 {\n    // Surface area of the cylinder\n    baseArea := c.Circle.Area()\n    circumference := 2 * math.Pi * c.Circle.Radius\n    return 2*baseArea + circumference*c.Height\n}\n\n// New method specific to Cylinder\nfunc (c Cylinder) Volume() float64 {\n    baseArea := c.Circle.Area()\n    return baseArea * c.Height\n}\n\n// Main function\nfunc main() {\n    circle := Circle{Radius: 5}\n    fmt.Printf(\"Circle area: %v\\n\", circle.Area())\n\n    cylinder := Cylinder{Circle{Radius: 5}, Height: 10}\n    fmt.Printf(\"Cylinder area: %v\\n\", cylinder.Area())\n    fmt.Printf(\"Cylinder volume: %v\\n\", cylinder.Volume())\n\n    // Interface usage\n    var shape Shape = Circle{Radius: 5}\n    fmt.Printf(\"Shape area (Circle): %v\\n\", shape.Area())\n    shape = Cylinder{Circle{Radius: 5}, Height: 10}\n    fmt.Printf(\"Shape area (Cylinder): %v\\n\", shape.Area())\n}\n\n// Go uses structs and interfaces to achieve many of the same things as classes and inheritance in other languages.\n",
+    "start_char_idx": 0,
+    "end_char_idx": 1636,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]

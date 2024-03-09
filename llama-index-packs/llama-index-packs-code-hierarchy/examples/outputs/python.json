@@ -1,0 +1,491 @@
+[
+  {
+    "id_": "32bcafa3-5f3b-4a83-8b96-c086f547cd08",
+    "embedding": null,
+    "metadata": {
+      "language": "python",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 2345,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+      "file_name": "tree-sitter-python-tags.py",
+      "file_type": "text/x-python",
+      "file_size": 2345,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [
+        {
+          "node_id": "16bb13e3-4086-486c-aaed-313ffde40107",
+          "node_type": "1",
+          "metadata": {
+            "inclusive_scopes": [
+              {
+                "name": "Circle",
+                "type": "class_definition",
+                "signature": "class Circle:\n    # Constructor method"
+              }
+            ],
+            "start_byte": 223,
+            "end_byte": 841
+          },
+          "hash": "33ffac90d89c4c98053e7f81efadf367b7bf6326db42e3c28dcea10da9d5aed8",
+          "class_name": "RelatedNodeInfo"
+        },
+        {
+          "node_id": "1b205576-1388-4031-a00e-4c8f90f2b5a1",
+          "node_type": "1",
+          "metadata": {
+            "inclusive_scopes": [
+              {
+                "name": "Cylinder",
+                "type": "class_definition",
+                "signature": "class Cylinder(Circle):\n    # Constructor method"
+              }
+            ],
+            "start_byte": 866,
+            "end_byte": 1489
+          },
+          "hash": "2287779a8609fcd30137a89fa09c7cceaa8116b67ff6ceddd9620a52c9bfc3d6",
+          "class_name": "RelatedNodeInfo"
+        }
+      ],
+      "1": {
+        "node_id": "a669868f-86f2-4f07-93d3-ca36ca83566e",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+          "file_name": "tree-sitter-python-tags.py",
+          "file_type": "text/x-python",
+          "file_size": 2345,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "e9109a9b8f1812261fb6ff5e1939b425ad6d3d3c10287d62d5ee18689106a158",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "# Import statements\nimport math\n\n# Global variable\nPI = math.pi\n\n\n# Function definition\ndef calculate_area(radius):\n    \"\"\"Calculates the area of a circle given its radius.\"\"\"\n    return PI * radius**2\n\n\n# Class definition\nclass Circle:\n    # Constructor method\n    # Code replaced for brevity. See node_id 16bb13e3-4086-486c-aaed-313ffde40107\n\n\n# Inheritance example\nclass Cylinder(Circle):\n    # Constructor method\n    # Code replaced for brevity. See node_id 1b205576-1388-4031-a00e-4c8f90f2b5a1\n\n\n# Using a generator\ndef fibonacci_sequence(n: int) -> int:\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b\n\n\n# Decorator example\ndef debug(func):\n    def wrapper(*args, **kwargs):\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__}({args}, {kwargs}) = {result}\")\n        return result\n\n    return wrapper\n\n\n@debug\ndef add(a: int, b: int) -> int:\n    return a + b\n\n\n# Main block to execute some examples\nif __name__ == \"__main__\":\n    circle = Circle(5)\n    print(f\"Circle area: {circle.area()}\")\n    cylinder = Cylinder(5, 10)\n    print(f\"Cylinder area: {cylinder.area()}\")\n    print(f\"Cylinder volume: {cylinder.volume()}\")\n\n    fib_seq = list(fibonacci_sequence(10))\n    print(f\"Fibonacci sequence (first 10 numbers): {fib_seq}\")\n\n    sum_result = add(5, 3)\n    print(f\"Sum of 5 and 3: {sum_result}\")\n",
+    "start_char_idx": null,
+    "end_char_idx": null,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  },
+  {
+    "id_": "16bb13e3-4086-486c-aaed-313ffde40107",
+    "embedding": null,
+    "metadata": {
+      "language": "python",
+      "inclusive_scopes": [
+        {
+          "name": "Circle",
+          "type": "class_definition",
+          "signature": "class Circle:\n    # Constructor method"
+        }
+      ],
+      "start_byte": 223,
+      "end_byte": 841,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+      "file_name": "tree-sitter-python-tags.py",
+      "file_type": "text/x-python",
+      "file_size": 2345,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [
+        {
+          "node_id": "33284c9c-4a3a-4a4a-acec-2f1c51d99395",
+          "node_type": "1",
+          "metadata": {
+            "inclusive_scopes": [
+              {
+                "name": "Circle",
+                "type": "class_definition",
+                "signature": "class Circle:\n    # Constructor method"
+              },
+              {
+                "name": "__init__",
+                "type": "block",
+                "signature": "def __init__(self, radius: float) -> None:"
+              }
+            ],
+            "start_byte": 262,
+            "end_byte": 841
+          },
+          "hash": "54901780fb8e571aa7fefaef602a780b566475e59a72c0d8825133b99dd9e618",
+          "class_name": "RelatedNodeInfo"
+        }
+      ],
+      "4": {
+        "node_id": "32bcafa3-5f3b-4a83-8b96-c086f547cd08",
+        "node_type": "1",
+        "metadata": {
+          "inclusive_scopes": [],
+          "start_byte": 0,
+          "end_byte": 2345
+        },
+        "hash": "e3336eae5f3dc2d3a4df3da34f7120911ce26cdf971c5a62c866a2cc023abb31",
+        "class_name": "RelatedNodeInfo"
+      },
+      "1": {
+        "node_id": "a669868f-86f2-4f07-93d3-ca36ca83566e",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+          "file_name": "tree-sitter-python-tags.py",
+          "file_type": "text/x-python",
+          "file_size": 2345,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "e9109a9b8f1812261fb6ff5e1939b425ad6d3d3c10287d62d5ee18689106a158",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "class Circle:\n    # Constructor method\n    def __init__(self, radius: float) -> None:\n        # Code replaced for brevity. See node_id 33284c9c-4a3a-4a4a-acec-2f1c51d99395",
+    "start_char_idx": null,
+    "end_char_idx": null,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  },
+  {
+    "id_": "33284c9c-4a3a-4a4a-acec-2f1c51d99395",
+    "embedding": null,
+    "metadata": {
+      "language": "python",
+      "inclusive_scopes": [
+        {
+          "name": "Circle",
+          "type": "class_definition",
+          "signature": "class Circle:\n    # Constructor method"
+        },
+        {
+          "name": "__init__",
+          "type": "block",
+          "signature": "def __init__(self, radius: float) -> None:"
+        }
+      ],
+      "start_byte": 262,
+      "end_byte": 841,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+      "file_name": "tree-sitter-python-tags.py",
+      "file_type": "text/x-python",
+      "file_size": 2345,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "4": {
+        "node_id": "16bb13e3-4086-486c-aaed-313ffde40107",
+        "node_type": "1",
+        "metadata": {
+          "inclusive_scopes": [
+            {
+              "name": "Circle",
+              "type": "class_definition",
+              "signature": "class Circle:\n    # Constructor method"
+            }
+          ],
+          "start_byte": 223,
+          "end_byte": 841
+        },
+        "hash": "33ffac90d89c4c98053e7f81efadf367b7bf6326db42e3c28dcea10da9d5aed8",
+        "class_name": "RelatedNodeInfo"
+      },
+      "1": {
+        "node_id": "a669868f-86f2-4f07-93d3-ca36ca83566e",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+          "file_name": "tree-sitter-python-tags.py",
+          "file_type": "text/x-python",
+          "file_size": 2345,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "e9109a9b8f1812261fb6ff5e1939b425ad6d3d3c10287d62d5ee18689106a158",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "    def __init__(self, radius: float) -> None:\n        self.radius = radius\n\n    # Instance method\n    def area(self):\n        \"\"\"Calculates the area using the instance's radius.\"\"\"\n        return PI * self.radius**2\n\n    # Static method\n    @staticmethod\n    def circumference(radius):\n        \"\"\"Calculates the circumference of a circle given its radius.\"\"\"\n        return 2 * PI * radius\n\n    # Class method\n    @classmethod\n    def from_diameter(cls, diameter):\n        \"\"\"Creates a Circle instance from a diameter.\"\"\"\n        radius = diameter / 2\n        return cls(radius)",
+    "start_char_idx": 262,
+    "end_char_idx": 841,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  },
+  {
+    "id_": "1b205576-1388-4031-a00e-4c8f90f2b5a1",
+    "embedding": null,
+    "metadata": {
+      "language": "python",
+      "inclusive_scopes": [
+        {
+          "name": "Cylinder",
+          "type": "class_definition",
+          "signature": "class Cylinder(Circle):\n    # Constructor method"
+        }
+      ],
+      "start_byte": 866,
+      "end_byte": 1489,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+      "file_name": "tree-sitter-python-tags.py",
+      "file_type": "text/x-python",
+      "file_size": 2345,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [
+        {
+          "node_id": "cf80d768-5cb1-406e-899e-4af44d855cc0",
+          "node_type": "1",
+          "metadata": {
+            "inclusive_scopes": [
+              {
+                "name": "Cylinder",
+                "type": "class_definition",
+                "signature": "class Cylinder(Circle):\n    # Constructor method"
+              },
+              {
+                "name": "__init__",
+                "type": "block",
+                "signature": "def __init__(self, radius: float, height: float) -> None:"
+              }
+            ],
+            "start_byte": 915,
+            "end_byte": 1489
+          },
+          "hash": "b19605b93e8a1984ac0b92be3dd9cfb5af5960043a3dc0d4fffbaf36b84ed63d",
+          "class_name": "RelatedNodeInfo"
+        }
+      ],
+      "4": {
+        "node_id": "32bcafa3-5f3b-4a83-8b96-c086f547cd08",
+        "node_type": "1",
+        "metadata": {
+          "inclusive_scopes": [],
+          "start_byte": 0,
+          "end_byte": 2345
+        },
+        "hash": "e3336eae5f3dc2d3a4df3da34f7120911ce26cdf971c5a62c866a2cc023abb31",
+        "class_name": "RelatedNodeInfo"
+      },
+      "1": {
+        "node_id": "a669868f-86f2-4f07-93d3-ca36ca83566e",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+          "file_name": "tree-sitter-python-tags.py",
+          "file_type": "text/x-python",
+          "file_size": 2345,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "e9109a9b8f1812261fb6ff5e1939b425ad6d3d3c10287d62d5ee18689106a158",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "class Cylinder(Circle):\n    # Constructor method\n    def __init__(self, radius: float, height: float) -> None:\n        # Code replaced for brevity. See node_id cf80d768-5cb1-406e-899e-4af44d855cc0",
+    "start_char_idx": null,
+    "end_char_idx": null,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  },
+  {
+    "id_": "cf80d768-5cb1-406e-899e-4af44d855cc0",
+    "embedding": null,
+    "metadata": {
+      "language": "python",
+      "inclusive_scopes": [
+        {
+          "name": "Cylinder",
+          "type": "class_definition",
+          "signature": "class Cylinder(Circle):\n    # Constructor method"
+        },
+        {
+          "name": "__init__",
+          "type": "block",
+          "signature": "def __init__(self, radius: float, height: float) -> None:"
+        }
+      ],
+      "start_byte": 915,
+      "end_byte": 1489,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+      "file_name": "tree-sitter-python-tags.py",
+      "file_type": "text/x-python",
+      "file_size": 2345,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [
+        {
+          "node_id": "a7b3c78c-8641-49e3-a9dd-c10afd528fba",
+          "node_type": "1",
+          "metadata": {
+            "inclusive_scopes": [
+              {
+                "name": "Cylinder",
+                "type": "class_definition",
+                "signature": "class Cylinder(Circle):\n    # Constructor method"
+              },
+              {
+                "name": "__init__",
+                "type": "block",
+                "signature": "def __init__(self, radius: float, height: float) -> None:"
+              },
+              {
+                "name": "area",
+                "type": "function_definition",
+                "signature": "def area(self):"
+              }
+            ],
+            "start_byte": 1064,
+            "end_byte": 1322
+          },
+          "hash": "f83ab6d058449c177cd9cdb24eed2bc37a8d4719129d798ffcc3581e2700bf0d",
+          "class_name": "RelatedNodeInfo"
+        }
+      ],
+      "4": {
+        "node_id": "1b205576-1388-4031-a00e-4c8f90f2b5a1",
+        "node_type": "1",
+        "metadata": {
+          "inclusive_scopes": [
+            {
+              "name": "Cylinder",
+              "type": "class_definition",
+              "signature": "class Cylinder(Circle):\n    # Constructor method"
+            }
+          ],
+          "start_byte": 866,
+          "end_byte": 1489
+        },
+        "hash": "2287779a8609fcd30137a89fa09c7cceaa8116b67ff6ceddd9620a52c9bfc3d6",
+        "class_name": "RelatedNodeInfo"
+      },
+      "1": {
+        "node_id": "a669868f-86f2-4f07-93d3-ca36ca83566e",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+          "file_name": "tree-sitter-python-tags.py",
+          "file_type": "text/x-python",
+          "file_size": 2345,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "e9109a9b8f1812261fb6ff5e1939b425ad6d3d3c10287d62d5ee18689106a158",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "    def __init__(self, radius: float, height: float) -> None:\n        super().__init__(radius)\n        self.height = height\n\n    # Overriding method\n    def area(self):\n        # Code replaced for brevity. See node_id a7b3c78c-8641-49e3-a9dd-c10afd528fba\n\n    # New method\n    def volume(self):\n        \"\"\"Calculates the volume of the cylinder.\"\"\"\n        base_area = super().area()\n        return base_area * self.height",
+    "start_char_idx": null,
+    "end_char_idx": null,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  },
+  {
+    "id_": "a7b3c78c-8641-49e3-a9dd-c10afd528fba",
+    "embedding": null,
+    "metadata": {
+      "language": "python",
+      "inclusive_scopes": [
+        {
+          "name": "Cylinder",
+          "type": "class_definition",
+          "signature": "class Cylinder(Circle):\n    # Constructor method"
+        },
+        {
+          "name": "__init__",
+          "type": "block",
+          "signature": "def __init__(self, radius: float, height: float) -> None:"
+        },
+        {
+          "name": "area",
+          "type": "function_definition",
+          "signature": "def area(self):"
+        }
+      ],
+      "start_byte": 1064,
+      "end_byte": 1322,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+      "file_name": "tree-sitter-python-tags.py",
+      "file_type": "text/x-python",
+      "file_size": 2345,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "4": {
+        "node_id": "cf80d768-5cb1-406e-899e-4af44d855cc0",
+        "node_type": "1",
+        "metadata": {
+          "inclusive_scopes": [
+            {
+              "name": "Cylinder",
+              "type": "class_definition",
+              "signature": "class Cylinder(Circle):\n    # Constructor method"
+            },
+            {
+              "name": "__init__",
+              "type": "block",
+              "signature": "def __init__(self, radius: float, height: float) -> None:"
+            }
+          ],
+          "start_byte": 915,
+          "end_byte": 1489
+        },
+        "hash": "b19605b93e8a1984ac0b92be3dd9cfb5af5960043a3dc0d4fffbaf36b84ed63d",
+        "class_name": "RelatedNodeInfo"
+      },
+      "1": {
+        "node_id": "a669868f-86f2-4f07-93d3-ca36ca83566e",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-python-tags.py",
+          "file_name": "tree-sitter-python-tags.py",
+          "file_type": "text/x-python",
+          "file_size": 2345,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "e9109a9b8f1812261fb6ff5e1939b425ad6d3d3c10287d62d5ee18689106a158",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "    def area(self):\n        \"\"\"Calculates the surface area of the cylinder.\"\"\"\n        base_area = super().area()\n        circumference = self.circumference(self.radius)\n        side_area = circumference * self.height\n        return 2 * base_area + side_area",
+    "start_char_idx": 1064,
+    "end_char_idx": 1322,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]

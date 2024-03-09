@@ -1,0 +1,42 @@
+[
+  {
+    "id_": "44b322c2-1357-4e61-9d37-ed39112f743c",
+    "embedding": null,
+    "metadata": {
+      "language": "php",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 1891,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-php-tags.php",
+      "file_name": "tree-sitter-php-tags.php",
+      "file_size": 1891,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "1": {
+        "node_id": "81ae8c8e-0417-41e2-9bae-678c7600eb56",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-php-tags.php",
+          "file_name": "tree-sitter-php-tags.php",
+          "file_size": 1891,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "f784bcc7ce2286ebfba6f907c03dff30d495c5df2405d468fb914835380c48e1",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "<?php\n// PHP Example showcasing various language structures\n\n// Function definition\nfunction calculateArea($radius) {\n    return pi() * $radius * $radius;\n}\n\n// Interface definition\ninterface Shape {\n    public function getArea();\n}\n\n// Class definition\nclass Circle implements Shape {\n    public $radius;\n\n    // Constructor\n    public function __construct($radius) {\n        $this->radius = $radius;\n    }\n\n    // Implementing the getArea method from Shape interface\n    public function getArea() {\n        return pi() * $this->radius * $this->radius;\n    }\n\n    // Static method\n    public static function calculateAreaStatic($radius) {\n        return pi() * $radius * $radius;\n    }\n}\n\n// Inheritance\nclass Cylinder extends Circle {\n    public $height;\n\n    // Constructor\n    public function __construct($radius, $height) {\n        parent::__construct($radius);\n        $this->height = $height;\n    }\n\n    // Overriding method\n    public function getArea() {\n        // Surface area of the cylinder\n        $baseArea = parent::getArea();\n        $circumference = 2 * pi() * $this->radius;\n        return 2 * $baseArea + $circumference * $this->height;\n    }\n\n    // New method specific to Cylinder\n    public function getVolume() {\n        $baseArea = parent::getArea();\n        return $baseArea * $this->height;\n    }\n}\n\n// Using traits\ntrait Logger {\n    public function log($message) {\n        echo \"Logging message: $message\";\n    }\n}\n\nclass FileLogger {\n    use Logger;\n}\n\n// Main script\n$circle = new Circle(5);\necho \"Circle area: \" . $circle->getArea() . \"\\n\";\n\n$cylinder = new Cylinder(5, 10);\necho \"Cylinder area: \" . $cylinder->getArea() . \"\\n\";\necho \"Cylinder volume: \" . $cylinder->getVolume() . \"\\n\";\n\n// Static method call\necho \"Static Circle area: \" . Circle::calculateAreaStatic(5) . \"\\n\";\n\n$fileLogger = new FileLogger();\n$fileLogger->log(\"This is a log message.\");\n?>\n",
+    "start_char_idx": 0,
+    "end_char_idx": 1891,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]
