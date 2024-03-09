@@ -3,6 +3,7 @@ import os
 from typing import List, cast
 
 from llama_index.packs.code_hierarchy import CodeHierarchyNodeParser
+from llama_index.packs.code_hierarchy.comments import get_comment_text
 from llama_index.core.schema import NodeRelationship, RelatedNodeInfo, TextNode
 
 
@@ -37,7 +38,7 @@ class Foo:
         chunks[0].text
         == f"""\
 class Foo:
-    # {CodeHierarchyNodeParser._get_comment_text(chunks[1])}"""
+    # {get_comment_text(chunks[1])}"""
     )
     assert chunks[0].metadata["module"] == "example.foo"
     assert chunks[0].metadata["inclusive_scopes"] == []
@@ -59,10 +60,10 @@ class Foo:
         == f"""\
 class Foo:
     def bar() -> None:
-        # {CodeHierarchyNodeParser._get_comment_text(chunks[2])}
+        # {get_comment_text(chunks[2])}
 
     async def baz():
-        # {CodeHierarchyNodeParser._get_comment_text(chunks[3])}"""
+        # {get_comment_text(chunks[3])}"""
     )
     assert chunks[1].metadata["module"] == "example.foo"
     assert chunks[1].metadata["inclusive_scopes"] == [
@@ -174,7 +175,7 @@ class Foo:
         == f"""\
 @foo
 class Foo:
-    # {CodeHierarchyNodeParser._get_comment_text(chunks[1])}"""
+    # {get_comment_text(chunks[1])}"""
     )
     assert chunks[0].metadata["module"] == "example.foo"
     assert chunks[0].metadata["inclusive_scopes"] == []
@@ -198,7 +199,7 @@ class Foo:
     @bar
     @barfoo
     def bar() -> None:
-        # {CodeHierarchyNodeParser._get_comment_text(chunks[2])}"""
+        # {get_comment_text(chunks[2])}"""
     )
     assert chunks[1].metadata["module"] == "example.foo"
     assert chunks[1].metadata["inclusive_scopes"] == [
@@ -291,7 +292,7 @@ def test_html_code_splitter() -> None:
         == f"""\
 <!DOCTYPE html>
 <html>
-    <!-- {CodeHierarchyNodeParser._get_comment_text(chunks[1])} -->
+    <!-- {get_comment_text(chunks[1])} -->
 </html>"""
     )
     assert chunks[0].metadata["inclusive_scopes"] == []
@@ -312,10 +313,10 @@ def test_html_code_splitter() -> None:
         == f"""\
 <html>
 <head>
-    <!-- {CodeHierarchyNodeParser._get_comment_text(chunks[2])} -->
+    <!-- {get_comment_text(chunks[2])} -->
 </head>
 <body>
-    <!-- {CodeHierarchyNodeParser._get_comment_text(chunks[3])} -->
+    <!-- {get_comment_text(chunks[3])} -->
 </body>
 </html>"""
     )
@@ -399,15 +400,15 @@ function baz() {
         chunks[0].text
         == f"""\
 function foo() {{
-    {double_forward_slash} {CodeHierarchyNodeParser._get_comment_text(chunks[1])}
+    {double_forward_slash} {get_comment_text(chunks[1])}
 }}
 
 class Example {{
-    {double_forward_slash} {CodeHierarchyNodeParser._get_comment_text(chunks[2])}
+    {double_forward_slash} {get_comment_text(chunks[2])}
 }}
 
 function baz() {{
-    {double_forward_slash} {CodeHierarchyNodeParser._get_comment_text(chunks[4])}
+    {double_forward_slash} {get_comment_text(chunks[4])}
 }}"""
     )
 
@@ -434,7 +435,7 @@ function foo() {
         == f"""\
 class Example {{
     exampleMethod() {{
-        {double_forward_slash} {CodeHierarchyNodeParser._get_comment_text(chunks[3])}
+        {double_forward_slash} {get_comment_text(chunks[3])}
     }}
 }}"""
     )
@@ -520,7 +521,7 @@ class Example {
         chunks[0].text
         == f"""\
 class Example {{
-    {double_forward_slash} {CodeHierarchyNodeParser._get_comment_text(chunks[1])}
+    {double_forward_slash} {get_comment_text(chunks[1])}
 }}
 """
     )

@@ -1,0 +1,34 @@
+# Testing
+
+To test, [install the tree-sitter-cli](https://tree-sitter.github.io/tree-sitter/creating-parsers#installation)
+
+Then run `tree-sitter init-config`
+
+Then create a `~/src` directory as described https://dcreager.net/2021/06/getting-started-with-tree-sitter/
+
+Then install the following languages:
+
+```bash
+cd ~/src
+git clone https://github.com/tree-sitter/tree-sitter-python
+```
+
+Now you may parse the example files like so:
+
+For the python example:
+
+`tree-sitter query tree-sitter-python-tags.scm test/highlight/tree-sitter-python-tags.py`
+
+# Tags
+
+We are using the following tags:
+
+```
+@definition.*
+@name.definition.*
+@body.definition.*
+```
+
+Where star can be any number of things, like function_definition, class_definition, etc.
+
+The signature is defined by the `@definition - @body.definition` tags.

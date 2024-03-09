@@ -28,6 +28,7 @@ class _ScopeItem(BaseModel):
 
     name: str
     type: str
+    signature: str
 
 
 class _ChunkNodeOutput(BaseModel):
@@ -114,7 +115,7 @@ class CodeHierarchyNodeParser(NodeParser):
             skeleton=skeleton,
         )
 
-    def _get_node_name(self, node: Node, captures: List[Tuple[Node, str]]) -> str:
+    def _get_node_name(self, captures: List[Tuple[Node, str]]) -> str:
         """Get the name of a node."""
         assert captures[0][1].startswith(
             "definition"
@@ -125,11 +126,22 @@ class CodeHierarchyNodeParser(NodeParser):
                 return capture[0].text
         raise ValueError("Could not find a name capture")
 
-    def _get_node_signature(
-        self, text: str, node: Node, captures: List[Tuple[Node, str]]
-    ) -> str:
+    def _get_node_signature(self, text: str, captures: List[Tuple[Node, str]]) -> str:
         """Get the signature of a node."""
-        raise NotImplementedError("Get from scm file")
+        definition, tag = captures[0][1]
+        assert tag.startswith("definition"), "First capture must be a definition"
+        body = None
+        for capture in captures[1:]:
+            if capture[1] == f"body.{tag}":
+                body = capture[0]
+                break
+        if body is None:
+            raise ValueError("Could not find a body capture")
+        # The signature is the node minus the body, stripped
+        signature = text[definition.start_byte : body.start_byte].strip()
+        if len(signature) == 0:
+            raise ValueError("Signature is empty")
+        return signature
 
     def _chunk_node(
         self,
@@ -182,11 +194,9 @@ class CodeHierarchyNodeParser(NodeParser):
             # Get the new context
             if not _root:
                 new_context = _ScopeItem(
-                    name=self._get_node_name(node=parent, captures=captures),
+                    name=self._get_node_name(captures=captures),
                     type=parent.type,
-                    signature=self._get_node_signature(
-                        text=text, node=parent, captures=captures
-                    ),
+                    signature=self._get_node_signature(text=text, captures=captures),
                 )
                 _context_list.append(new_context)
             this_document = TextNode(
