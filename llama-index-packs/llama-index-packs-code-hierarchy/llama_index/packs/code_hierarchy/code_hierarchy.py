@@ -7,6 +7,7 @@ from llama_index.packs.code_hierarchy.signature import (
     get_node_signature,
 )
 from llama_index.packs.code_hierarchy.comments import (
+    create_comment_line,
     get_replacement_text,
 )
 from tree_sitter import Node
@@ -392,13 +393,13 @@ class CodeHierarchyNodeParser(NodeParser):
                             new_split_node.text = (
                                 new_split_node.text
                                 + "\n"
-                                + self._create_comment_line(new_split_nodes[i + 1], 0)
+                                + create_comment_line(new_split_nodes[i + 1], 0)
                             ).strip()
 
                         # Add the UUID of the previous node to the beginning of all nodes
                         for i, new_split_node in enumerate(new_split_nodes[1:]):
                             new_split_node.text = (
-                                self._create_comment_line(new_split_nodes[i])
+                                create_comment_line(new_split_nodes[i])
                                 + new_split_node.text
                             ).strip()
 

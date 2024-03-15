@@ -140,7 +140,7 @@ def test_language_config():
     """Check that we have included all languages in both signature constants."""
     assert all(
         language in DEFAULT_SIGNATURE_IDENTIFIERS for language in COMMENT_OPTIONS
-    ), "Not all languages in _COMMENT_OPTIONS are in DEFAULT_SIGNATURE_IDENTIFIERS"
+    ), "Not all languages in COMMENT_OPTIONS are in DEFAULT_SIGNATURE_IDENTIFIERS"
     assert all(
         language in COMMENT_OPTIONS for language in DEFAULT_SIGNATURE_IDENTIFIERS
-    ), "Not all languages in DEFAULT_SIGNATURE_IDENTIFIERS are in _COMMENT_OPTIONS"
+    ), "Not all languages in DEFAULT_SIGNATURE_IDENTIFIERS are in COMMENT_OPTIONS"
