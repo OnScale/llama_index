@@ -1,0 +1,44 @@
+[
+  {
+    "id_": "ad37f65b-b2a8-48c6-be9b-449c741c74b4",
+    "embedding": null,
+    "metadata": {
+      "language": "ruby",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 1729,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-ruby-tags.rb",
+      "file_name": "tree-sitter-ruby-tags.rb",
+      "file_type": "application/x-ruby",
+      "file_size": 1729,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "1": {
+        "node_id": "951584e1-5b5d-41f8-80de-a4fe03552300",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-ruby-tags.rb",
+          "file_name": "tree-sitter-ruby-tags.rb",
+          "file_type": "application/x-ruby",
+          "file_size": 1729,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "5945e3235a4a4e0b97e44ad75eb594a36ddfbe8a1f78d88fcbe84f0ff2dcfab7",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "# Ruby Example showcasing various language structures\n\n# Module definition\nmodule MathHelpers\n  PI = 3.14159\n\n  def self.calculate_area(radius)\n    PI * radius ** 2\n  end\nend\n\n# Class definition\nclass Circle\n  # Accessor methods\n  attr_accessor :radius\n\n  # Constructor method\n  def initialize(radius)\n    @radius = radius\n  end\n\n  # Instance method\n  def area\n    MathHelpers::PI * @radius ** 2\n  end\n\n  # Class method\n  def self.from_diameter(diameter)\n    Circle.new(diameter / 2)\n  end\nend\n\n# Inheritance example\nclass Cylinder < Circle\n  attr_accessor :height\n\n  def initialize(radius, height)\n    super(radius) # Calls the parent class's initialize method\n    @height = height\n  end\n\n  # Overriding method\n  def area\n    2 * super + circumference * @height # Calls the parent class's area method\n  end\n\n  # New method\n  def volume\n    super * @height\n  end\n\n  def circumference\n    2 * MathHelpers::PI * @radius\n  end\nend\n\n# Using a Proc\nsquare = Proc.new { |x| x ** 2 }\n\n# Lambda example\nadder = ->(a, b) { a + b }\n\n# Enumerable and blocks\ndef fibonacci_sequence(n)\n  seq = [0, 1]\n  (2...n).each { |i| seq << seq[i - 1] + seq[i - 2] }\n  seq\nend\n\n# Mixin and Modules\nmodule Debuggable\n  def debug\n    puts \"Debugging #{self.class.name}...\"\n  end\nend\n\nclass DebugCircle < Circle\n  include Debuggable\nend\n\n# Main block to execute some examples\nif __FILE__ == $0\n  circle = Circle.new(5)\n  puts \"Circle area: #{circle.area}\"\n  cylinder = Cylinder.new(5, 10)\n  puts \"Cylinder area: #{cylinder.area}\"\n  puts \"Cylinder volume: #{cylinder.volume}\"\n\n  fib_seq = fibonacci_sequence(10)\n  puts \"Fibonacci sequence (first 10 numbers): #{fib_seq.join(', ')}\"\n\n  sum_result = adder.call(5, 3)\n  puts \"Sum of 5 and 3: #{sum_result}\"\nend\n",
+    "start_char_idx": 0,
+    "end_char_idx": 1729,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]

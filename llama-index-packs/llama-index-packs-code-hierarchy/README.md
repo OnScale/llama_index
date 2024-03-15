@@ -55,8 +55,8 @@ The pack contains a `CodeHierarchyKeywordQueryEngine` that uses a `CodeHierarchy
 For example:
 
 - code_hierarchy
-  - \_SignatureCaptureType
-  - \_SignatureCaptureOptions
+  - \SignatureCaptureType
+  - \SignatureCaptureOptions
   - \_ScopeMethod
   - \_CommentOptions
   - \_ScopeItem
@@ -64,9 +64,9 @@ For example:
   - CodeHierarchyNodeParser
     - class_name
     - **init**
-    - \_get_node_name
+    - \get_node_name
       - recur
-    - \_get_node_signature
+    - \get_node_signature
       - find_start
       - find_end
     - \_chunk_node
@@ -109,7 +109,7 @@ agent = OpenAIAgent.from_tools(
 
 ## Adding new languages
 
-To add a new language you need to edit `_DEFAULT_SIGNATURE_IDENTIFIERS` in `code_hierarchy.py`.
+To add a new language you need to edit `DEFAULT_SIGNATURE_IDENTIFIERS` in `code_hierarchy.py`.
 
 The docstrings are infomative as how you ought to do this and its nuances, it should work for most languages.
 
@@ -127,7 +127,7 @@ The code as it is should handle any language which:
 ## Future
 
 I'm considering adding all the languages from [aider](https://github.com/paul-gauthier/aider/tree/main/aider/queries)
-by incorporating `.scm` files instead of `_SignatureCaptureType`, `_SignatureCaptureOptions`, and `_DEFAULT_SIGNATURE_IDENTIFIERS`
+by incorporating `.scm` files instead of `SignatureCaptureType`, `SignatureCaptureOptions`, and `DEFAULT_SIGNATURE_IDENTIFIERS`
 
 ## Contributing
 

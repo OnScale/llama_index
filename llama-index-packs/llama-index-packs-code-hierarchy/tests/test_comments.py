@@ -1,3 +1,7 @@
+from llama_index.packs.code_hierarchy.code_hierarchy import (
+    _COMMENT_OPTIONS,
+    DEFAULT_SIGNATURE_IDENTIFIERS,
+)
 import pytest
 from llama_index.packs.code_hierarchy import CodeHierarchyNodeParser
 
@@ -131,3 +135,13 @@ function baz() {
     assert indent_char == " "
     assert count_per_indent == 4
     assert first_indent_level == 0
+
+
+def test_language_config():
+    """Check that we have included all languages in both signature constants."""
+    assert all(
+        language in DEFAULT_SIGNATURE_IDENTIFIERS for language in _COMMENT_OPTIONS
+    ), "Not all languages in _COMMENT_OPTIONS are in DEFAULT_SIGNATURE_IDENTIFIERS"
+    assert all(
+        language in _COMMENT_OPTIONS for language in DEFAULT_SIGNATURE_IDENTIFIERS
+    ), "Not all languages in DEFAULT_SIGNATURE_IDENTIFIERS are in _COMMENT_OPTIONS"

@@ -1,0 +1,44 @@
+[
+  {
+    "id_": "08695f9f-69fe-4d1c-a1d1-43406747c6d5",
+    "embedding": null,
+    "metadata": {
+      "language": "c",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 845,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-c-tags.c",
+      "file_name": "tree-sitter-c-tags.c",
+      "file_type": "text/x-csrc",
+      "file_size": 845,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "1": {
+        "node_id": "033815bf-fa8c-4e45-b2fc-8a2e6c914d56",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-c-tags.c",
+          "file_name": "tree-sitter-c-tags.c",
+          "file_type": "text/x-csrc",
+          "file_size": 845,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "c4892fdcc3d14317026f72971a2b0a5550290aaf4d8c1a49ff2c096e7f5198cb",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "// C Example showcasing various language structures\n\n#include <stdio.h>\n#include <math.h>\n\n// Function definition\ndouble calculateArea(double radius) {\n    return M_PI * radius * radius;\n}\n\n// Struct definition\ntypedef struct {\n    double radius;\n} Circle;\n\n// Function associated with Circle\ndouble circleArea(Circle c) {\n    return M_PI * c.radius * c.radius;\n}\n\n// Struct definition for a Cylinder, demonstrating composition\ntypedef struct {\n    Circle base;\n    double height;\n} Cylinder;\n\n// Function associated with Cylinder\ndouble cylinderVolume(Cylinder cy) {\n    return circleArea(cy.base) * cy.height;\n}\n\n// Main function\nint main() {\n    Circle circle = {5.0};\n    printf(\"Circle area: %f\\n\", circleArea(circle));\n\n    Cylinder cylinder = {{5.0}, 10.0};\n    printf(\"Cylinder volume: %f\\n\", cylinderVolume(cylinder));\n\n    return 0;\n}\n",
+    "start_char_idx": 0,
+    "end_char_idx": 845,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]

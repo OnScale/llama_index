@@ -1,0 +1,44 @@
+[
+  {
+    "id_": "63ae3c94-3613-4245-8f53-4a96e501b728",
+    "embedding": null,
+    "metadata": {
+      "language": "rust",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 1666,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-rust-tags.rs",
+      "file_name": "tree-sitter-rust-tags.rs",
+      "file_type": "application/rls-services+xml",
+      "file_size": 1666,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "1": {
+        "node_id": "9f41e844-62ec-49ce-8a80-0354285d32cc",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-rust-tags.rs",
+          "file_name": "tree-sitter-rust-tags.rs",
+          "file_type": "application/rls-services+xml",
+          "file_size": 1666,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "173f062c21c74a67909108e25b6162daf47d3544dded257094bd87b6b84ecd9d",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "// Rust Example showcasing various language structures\n\n// Import statements\nuse std::f64::consts::PI;\n\n// Function definition\nfn calculate_area(radius: f64) -> f64 {\n    PI * radius.powi(2)\n}\n\n// Struct definition\nstruct Circle {\n    radius: f64,\n}\n\n// Implementation block for Circle\nimpl Circle {\n    // Associated function (similar to a static method)\n    fn new(radius: f64) -> Circle {\n        Circle { radius }\n    }\n\n    // Method definition\n    fn area(&self) -> f64 {\n        PI * self.radius.powi(2)\n    }\n}\n\n// Inheritance is not directly supported in Rust, but we can use traits for polymorphism\ntrait Shape {\n    fn area(&self) -> f64;\n}\n\n// Implementing the Shape trait for Circle\nimpl Shape for Circle {\n    fn area(&self) -> f64 {\n        PI * self.radius.powi(2)\n    }\n}\n\n// Enum definition\nenum Day {\n    Monday,\n    Tuesday,\n    Wednesday,\n    Thursday,\n    Friday,\n    Saturday,\n    Sunday,\n}\n\n// Using match for control flow\nfn print_day(day: Day) {\n    match day {\n        Day::Monday => println!(\"Monday\"),\n        Day::Tuesday => println!(\"Tuesday\"),\n        _ => println!(\"Some other day\"),\n    }\n}\n\n// Using generics\nfn print_value<T: std::fmt::Display>(value: T) {\n    println!(\"{}\", value);\n}\n\n// Main function\nfn main() {\n    let circle = Circle::new(5.0);\n    println!(\"Circle area: {}\", circle.area());\n\n    print_day(Day::Monday);\n    print_day(Day::Saturday);\n\n    print_value(10);\n    print_value(10.5);\n    print_value(\"Hello, Rust!\");\n}\n\n// Rust does not have classes but uses structs and impl blocks to achieve similar functionality.\n// Traits are used for polymorphism, and enums for defining types with a few definite values.\n",
+    "start_char_idx": 0,
+    "end_char_idx": 1666,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]

@@ -1,5 +1,9 @@
 from collections import defaultdict
-from enum import Enum
+from llama_index.packs.code_hierarchy.signature import (
+    DEFAULT_SIGNATURE_IDENTIFIERS,
+    SignatureCaptureOptions,
+    SignatureIdentifiersByNodeType,
+)
 from tree_sitter import Node
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
@@ -11,149 +15,6 @@ from llama_index.core.node_parser.interface import NodeParser
 from llama_index.core.schema import BaseNode, NodeRelationship, TextNode
 from llama_index.core.text_splitter import CodeSplitter
 from llama_index.core.utils import get_tqdm_iterable
-
-
-class _SignatureCaptureType(BaseModel):
-    """
-    Unfortunately some languages need special options for how to make a signature.
-
-    For example, html element signatures should include their closing >, there is no
-    easy way to include this using an always-exclusive system.
-
-    However, using an always-inclusive system, python decorators don't work,
-    as there isn't an easy to define terminator for decorators that is inclusive
-    to their signature.
-    """
-
-    type: str = Field(description="The type string to match on.")
-    inclusive: bool = Field(
-        description=(
-            "Whether to include the text of the node matched by this type or not."
-        ),
-    )
-
-
-class _SignatureCaptureOptions(BaseModel):
-    """
-    Options for capturing the signature of a node.
-    """
-
-    start_signature_types: Optional[List[_SignatureCaptureType]] = Field(
-        None,
-        description=(
-            "A list of node types any of which indicate the beginning of the signature."
-            "If this is none or empty, use the start_byte of the node."
-        ),
-    )
-    end_signature_types: Optional[List[_SignatureCaptureType]] = Field(
-        None,
-        description=(
-            "A list of node types any of which indicate the end of the signature."
-            "If this is none or empty, use the end_byte of the node."
-        ),
-    )
-    name_identifier: str = Field(
-        description=(
-            "The node type to use for the signatures 'name'.If retrieving the name is"
-            " more complicated than a simple type match, use a function which takes a"
-            " node and returns true or false as to whether its the name or not. The"
-            " first match is returned."
-        )
-    )
-
-
-"""
-Maps language -> Node Type -> SignatureCaptureOptions
-
-The best way for a developer to discover these is to put a breakpoint at the TIP
-tag in _chunk_node, and then create a unit test for some code, and then iterate
-through the code discovering the node names.
-"""
-_DEFAULT_SIGNATURE_IDENTIFIERS: Dict[str, Dict[str, _SignatureCaptureOptions]] = {
-    "python": {
-        "function_definition": _SignatureCaptureOptions(
-            end_signature_types=[_SignatureCaptureType(type="block", inclusive=False)],
-            name_identifier="identifier",
-        ),
-        "class_definition": _SignatureCaptureOptions(
-            end_signature_types=[_SignatureCaptureType(type="block", inclusive=False)],
-            name_identifier="identifier",
-        ),
-    },
-    "html": {
-        "element": _SignatureCaptureOptions(
-            start_signature_types=[_SignatureCaptureType(type="<", inclusive=True)],
-            end_signature_types=[_SignatureCaptureType(type=">", inclusive=True)],
-            name_identifier="tag_name",
-        )
-    },
-    "cpp": {
-        "class_specifier": _SignatureCaptureOptions(
-            end_signature_types=[_SignatureCaptureType(type="{", inclusive=False)],
-            name_identifier="type_identifier",
-        ),
-        "function_definition": _SignatureCaptureOptions(
-            end_signature_types=[_SignatureCaptureType(type="{", inclusive=False)],
-            name_identifier="function_declarator",
-        ),
-    },
-    "typescript": {
-        "interface_declaration": _SignatureCaptureOptions(
-            end_signature_types=[_SignatureCaptureType(type="{", inclusive=False)],
-            name_identifier="type_identifier",
-        ),
-        "lexical_declaration": _SignatureCaptureOptions(
-            end_signature_types=[_SignatureCaptureType(type="{", inclusive=False)],
-            name_identifier="identifier",
-        ),
-        "function_declaration": _SignatureCaptureOptions(
-            end_signature_types=[_SignatureCaptureType(type="{", inclusive=False)],
-            name_identifier="identifier",
-        ),
-        "class_declaration": _SignatureCaptureOptions(
-            end_signature_types=[_SignatureCaptureType(type="{", inclusive=False)],
-            name_identifier="type_identifier",
-        ),
-        "method_definition": _SignatureCaptureOptions(
-            end_signature_types=[_SignatureCaptureType(type="{", inclusive=False)],
-            name_identifier="property_identifier",
-        ),
-    },
-}
-
-
-class _ScopeMethod(Enum):
-    INDENTATION = "INDENTATION"
-    BRACKETS = "BRACKETS"
-    HTML_END_TAGS = "HTML_END_TAGS"
-
-
-class _CommentOptions(BaseModel):
-    comment_template: str
-    scope_method: _ScopeMethod
-
-
-_COMMENT_OPTIONS: Dict[str, _CommentOptions] = {
-    "cpp": _CommentOptions(
-        comment_template="// {}", scope_method=_ScopeMethod.BRACKETS
-    ),
-    "html": _CommentOptions(
-        comment_template="<!-- {} -->", scope_method=_ScopeMethod.HTML_END_TAGS
-    ),
-    "python": _CommentOptions(
-        comment_template="# {}", scope_method=_ScopeMethod.INDENTATION
-    ),
-    "typescript": _CommentOptions(
-        comment_template="// {}", scope_method=_ScopeMethod.BRACKETS
-    ),
-}
-
-assert all(
-    language in _DEFAULT_SIGNATURE_IDENTIFIERS for language in _COMMENT_OPTIONS
-), "Not all languages in _COMMENT_OPTIONS are in _DEFAULT_SIGNATURE_IDENTIFIERS"
-assert all(
-    language in _COMMENT_OPTIONS for language in _DEFAULT_SIGNATURE_IDENTIFIERS
-), "Not all languages in _DEFAULT_SIGNATURE_IDENTIFIERS are in _COMMENT_OPTIONS"
 
 
 class _ScopeItem(BaseModel):
@@ -187,7 +48,7 @@ class CodeHierarchyNodeParser(NodeParser):
     language: str = Field(
         description="The programming language of the code being split."
     )
-    signature_identifiers: Dict[str, _SignatureCaptureOptions] = Field(
+    signature_identifiers: Dict[str, SignatureCaptureOptions] = Field(
         description=(
             "A dictionary mapping the type of a split mapped to the first and last type"
             " of itschildren which identify its signature."
@@ -222,7 +83,7 @@ class CodeHierarchyNodeParser(NodeParser):
         self,
         language: str,
         skeleton: bool = True,
-        signature_identifiers: Optional[Dict[str, _SignatureCaptureOptions]] = None,
+        signature_identifiers: Optional[SignatureIdentifiersByNodeType] = None,
         code_splitter: Optional[CodeSplitter] = None,
         callback_manager: Optional[CallbackManager] = None,
         metadata_extractor: Optional[BaseExtractor] = None,
@@ -232,7 +93,7 @@ class CodeHierarchyNodeParser(NodeParser):
 
         if signature_identifiers is None:
             try:
-                signature_identifiers = _DEFAULT_SIGNATURE_IDENTIFIERS[language]
+                signature_identifiers = DEFAULT_SIGNATURE_IDENTIFIERS[language]
             except KeyError:
                 raise ValueError(
                     f"Must provide signature_identifiers for language {language}."
@@ -248,67 +109,6 @@ class CodeHierarchyNodeParser(NodeParser):
             min_characters=chunk_min_characters,
             skeleton=skeleton,
         )
-
-    def _get_node_name(self, node: Node) -> str:
-        """Get the name of a node."""
-        signature_identifier = self.signature_identifiers[node.type]
-
-        def recur(node: Node) -> str:
-            for child in node.children:
-                if child.type == signature_identifier.name_identifier:
-                    return child.text.decode()
-                if child.children:
-                    out = recur(child)
-                    if out:
-                        return out
-            return ""
-
-        return recur(node).strip()
-
-    def _get_node_signature(self, text: str, node: Node) -> str:
-        """Get the signature of a node."""
-        signature_identifier = self.signature_identifiers[node.type]
-
-        def find_start(node: Node) -> Optional[int]:
-            if not signature_identifier.start_signature_types:
-                signature_identifier.start_signature_types = []
-
-            for st in signature_identifier.start_signature_types:
-                if node.type == st.type:
-                    if st.inclusive:
-                        return node.start_byte
-                    return node.end_byte
-
-            for child in node.children:
-                out = find_start(child)
-                if out is not None:
-                    return out
-
-            return None
-
-        def find_end(node: Node) -> Optional[int]:
-            if not signature_identifier.end_signature_types:
-                signature_identifier.end_signature_types = []
-
-            for st in signature_identifier.end_signature_types:
-                if node.type == st.type:
-                    if st.inclusive:
-                        return node.end_byte
-                    return node.start_byte
-
-            for child in node.children:
-                out = find_end(child)
-                if out is not None:
-                    return out
-
-            return None
-
-        start_byte, end_byte = find_start(node), find_end(node)
-        if start_byte is None:
-            start_byte = node.start_byte
-        if end_byte is None:
-            end_byte = node.end_byte
-        return text[start_byte:end_byte].strip()
 
     def _chunk_node(
         self,
@@ -358,9 +158,9 @@ class CodeHierarchyNodeParser(NodeParser):
             # Get the new context
             if not _root:
                 new_context = _ScopeItem(
-                    name=self._get_node_name(parent),
+                    name=self.get_node_name(parent),
                     type=parent.type,
-                    signature=self._get_node_signature(text=text, node=parent),
+                    signature=self.get_node_signature(text=text, node=parent),
                 )
                 _context_list.append(new_context)
             this_document = TextNode(
@@ -643,176 +443,6 @@ class CodeHierarchyNodeParser(NodeParser):
                 raise ValueError(f"Could not parse code with language {self.language}.")
 
         return out
-
-    @staticmethod
-    def _get_indentation(text: str) -> Tuple[str, int, int]:
-        indent_char = None
-        minimum_chain = None
-
-        # Check that text is at least 1 line long
-        text_split = text.splitlines()
-        if len(text_split) == 0:
-            raise ValueError("Text should be at least one line long.")
-
-        for line in text_split:
-            stripped_line = line.lstrip()
-
-            if stripped_line:
-                # Get whether it's tabs or spaces
-                spaces_count = line.count(" ", 0, len(line) - len(stripped_line))
-                tabs_count = line.count("\t", 0, len(line) - len(stripped_line))
-
-                if not indent_char:
-                    if spaces_count:
-                        indent_char = " "
-                    if tabs_count:
-                        indent_char = "\t"
-
-                # Detect mixed indentation.
-                if spaces_count > 0 and tabs_count > 0:
-                    raise ValueError("Mixed indentation found.")
-                if indent_char == " " and tabs_count > 0:
-                    raise ValueError("Mixed indentation found.")
-                if indent_char == "\t" and spaces_count > 0:
-                    raise ValueError("Mixed indentation found.")
-
-                # Get the minimum chain of indent_char
-                if indent_char:
-                    char_count = line.count(
-                        indent_char, 0, len(line) - len(stripped_line)
-                    )
-                    if minimum_chain is not None:
-                        if char_count > 0:
-                            minimum_chain = min(char_count, minimum_chain)
-                    else:
-                        if char_count > 0:
-                            minimum_chain = char_count
-
-        # Handle edge case
-        if indent_char is None:
-            indent_char = " "
-        if minimum_chain is None:
-            minimum_chain = 4
-
-        # Get the first indent count
-        first_line = text_split[0]
-        first_indent_count = 0
-        for char in first_line:
-            if char == indent_char:
-                first_indent_count += 1
-            else:
-                break
-
-        # Return the default indent level if only one indentation level was found.
-        return indent_char, minimum_chain, first_indent_count // minimum_chain
-
-    @staticmethod
-    def _get_comment_text(node: TextNode) -> str:
-        """Gets just the natural language text for a skeletonize comment."""
-        return f"Code replaced for brevity. See node_id {node.node_id}"
-
-    @classmethod
-    def _create_comment_line(cls, node: TextNode, indention_lvl: int = -1) -> str:
-        """
-        Creates a comment line for a node.
-
-        Sometimes we don't use this in a loop because it requires recalculating
-        a lot of the same information. But it is handy.
-        """
-        # Create the text to replace the child_node.text with
-        language = node.metadata["language"]
-        if language not in _COMMENT_OPTIONS:
-            # TODO: Create a contribution message
-            raise KeyError("Language not yet supported. Please contribute!")
-        comment_options = _COMMENT_OPTIONS[language]
-        (
-            indentation_char,
-            indentation_count_per_lvl,
-            first_indentation_lvl,
-        ) = cls._get_indentation(node.text)
-        if indention_lvl != -1:
-            first_indentation_lvl = indention_lvl
-        else:
-            first_indentation_lvl += 1
-        return (
-            indentation_char * indentation_count_per_lvl * first_indentation_lvl
-            + comment_options.comment_template.format(cls._get_comment_text(node))
-            + "\n"
-        )
-
-    @classmethod
-    def _get_replacement_text(cls, child_node: TextNode) -> str:
-        """
-        Manufactures a the replacement text to use to skeletonize a given child node.
-        """
-        signature = child_node.metadata["inclusive_scopes"][-1]["signature"]
-        language = child_node.metadata["language"]
-        if language not in _COMMENT_OPTIONS:
-            # TODO: Create a contribution message
-            raise KeyError("Language not yet supported. Please contribute!")
-        comment_options = _COMMENT_OPTIONS[language]
-
-        # Create the text to replace the child_node.text with
-        (
-            indentation_char,
-            indentation_count_per_lvl,
-            first_indentation_lvl,
-        ) = cls._get_indentation(child_node.text)
-
-        # Start with a properly indented signature
-        replacement_txt = (
-            indentation_char * indentation_count_per_lvl * first_indentation_lvl
-            + signature
-        )
-
-        # Add brackets if necessary. Expandable in the
-        # future to other methods of scoping.
-        if comment_options.scope_method == _ScopeMethod.BRACKETS:
-            replacement_txt += " {\n"
-            replacement_txt += (
-                indentation_char
-                * indentation_count_per_lvl
-                * (first_indentation_lvl + 1)
-                + comment_options.comment_template.format(
-                    cls._get_comment_text(child_node)
-                )
-                + "\n"
-            )
-            replacement_txt += (
-                indentation_char * indentation_count_per_lvl * first_indentation_lvl
-                + "}"
-            )
-
-        elif comment_options.scope_method == _ScopeMethod.INDENTATION:
-            replacement_txt += "\n"
-            replacement_txt += indentation_char * indentation_count_per_lvl * (
-                first_indentation_lvl + 1
-            ) + comment_options.comment_template.format(
-                cls._get_comment_text(child_node)
-            )
-
-        elif comment_options.scope_method == _ScopeMethod.HTML_END_TAGS:
-            tag_name = child_node.metadata["inclusive_scopes"][-1]["name"]
-            end_tag = f"</{tag_name}>"
-            replacement_txt += "\n"
-            replacement_txt += (
-                indentation_char
-                * indentation_count_per_lvl
-                * (first_indentation_lvl + 1)
-                + comment_options.comment_template.format(
-                    cls._get_comment_text(child_node)
-                )
-                + "\n"
-            )
-            replacement_txt += (
-                indentation_char * indentation_count_per_lvl * first_indentation_lvl
-                + end_tag
-            )
-
-        else:
-            raise KeyError(f"Unrecognized enum value {comment_options.scope_method}")
-
-        return replacement_txt
 
     @classmethod
     def _skeletonize(cls, parent_node: TextNode, child_node: TextNode) -> None:

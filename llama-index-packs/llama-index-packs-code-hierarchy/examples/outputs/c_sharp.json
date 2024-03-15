@@ -1,0 +1,42 @@
+[
+  {
+    "id_": "8f49a029-7b61-40d4-b19a-f0dd58f396ea",
+    "embedding": null,
+    "metadata": {
+      "language": "c_sharp",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 1583,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-c_sharp-tags.cs",
+      "file_name": "tree-sitter-c_sharp-tags.cs",
+      "file_size": 1583,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "1": {
+        "node_id": "e1bcdfa7-6aa7-4b6d-ad53-4d325293f0bb",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-c_sharp-tags.cs",
+          "file_name": "tree-sitter-c_sharp-tags.cs",
+          "file_size": 1583,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "181f27fc2ea07ef002136b5662d4bb808a18513915f5ea201da4ebf92a9464f0",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "// C# Example showcasing various language structures\n\nusing System;\n\n// Interface definition\npublic interface IShape {\n    double GetArea();\n}\n\n// Class definition\npublic class Circle : IShape {\n    public double Radius { get; set; }\n\n    // Constructor\n    public Circle(double radius) {\n        Radius = radius;\n    }\n\n    // Method implementing the IShape interface\n    public double GetArea() {\n        return Math.PI * Radius * Radius;\n    }\n\n    // Static method\n    public static double CalculateArea(double radius) {\n        return Math.PI * radius * radius;\n    }\n}\n\n// Inheritance\npublic class Cylinder : Circle {\n    public double Height { get; set; }\n\n    // Constructor\n    public Cylinder(double radius, double height) : base(radius) {\n        Height = height;\n    }\n\n    // Overriding method\n    public new double GetArea() {\n        // Surface area of the cylinder\n        return 2 * Math.PI * Radius * Height + 2 * base.GetArea();\n    }\n\n    // New method specific to Cylinder\n    public double GetVolume() {\n        return base.GetArea() * Height;\n    }\n}\n\n// Main class\nclass Program {\n    static void Main(string[] args) {\n        Circle circle = new Circle(5);\n        Console.WriteLine(\"Circle area: \" + circle.GetArea());\n\n        Cylinder cylinder = new Cylinder(5, 10);\n        Console.WriteLine(\"Cylinder area: \" + cylinder.GetArea());\n        Console.WriteLine(\"Cylinder volume: \" + cylinder.GetVolume());\n\n        // Using static method\n        double area = Circle.CalculateArea(5);\n        Console.WriteLine(\"Area from static method: \" + area);\n    }\n}\n",
+    "start_char_idx": 0,
+    "end_char_idx": 1583,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]

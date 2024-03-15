@@ -1,0 +1,44 @@
+[
+  {
+    "id_": "a9c74d38-fdf0-42a5-bac2-237c724bda5b",
+    "embedding": null,
+    "metadata": {
+      "language": "cpp",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 1298,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-cpp-tags.cpp",
+      "file_name": "tree-sitter-cpp-tags.cpp",
+      "file_type": "text/x-c++src",
+      "file_size": 1298,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "1": {
+        "node_id": "9799426c-197a-4256-b727-708d1822a8e0",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-cpp-tags.cpp",
+          "file_name": "tree-sitter-cpp-tags.cpp",
+          "file_type": "text/x-c++src",
+          "file_size": 1298,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "1212741fa52dc21eef0e9b338bcde23831c53998a705076b3d641f89147dbf2e",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "// C++ Example showcasing various language structures\n\n#include <iostream>\n#include <cmath>\nusing namespace std;\n\n// Function definition\ndouble calculateArea(double radius) {\n    return M_PI * radius * radius;\n}\n\n// Class definition\nclass Circle {\npublic:\n    double radius;\n    // Constructor\n    Circle(double r) : radius(r) {}\n    // Method\n    double area() {\n        return M_PI * radius * radius;\n    }\n};\n\n// Inheritance\nclass Cylinder : public Circle {\npublic:\n    double height;\n    // Constructor\n    Cylinder(double r, double h) : Circle(r), height(h) {}\n    // Overriding method\n    double area() {\n        // Surface area of the cylinder\n        return 2 * M_PI * radius * height + 2 * Circle::area();\n    }\n    // New method\n    double volume() {\n        return Circle::area() * height;\n    }\n};\n\n// Template function\ntemplate <typename T>\nT max(T a, T b) {\n    return (a > b) ? a : b;\n}\n\n// Main function\nint main() {\n    Circle circle(5);\n    cout << \"Circle area: \" << circle.area() << endl;\n\n    Cylinder cylinder(5, 10);\n    cout << \"Cylinder area: \" << cylinder.area() << endl;\n    cout << \"Cylinder volume: \" << cylinder.volume() << endl;\n\n    cout << \"Max of 10 and 20: \" << max(10, 20) << endl;\n    cout << \"Max of 15.5 and 8.2: \" << max(15.5, 8.2) << endl;\n\n    return 0;\n}\n",
+    "start_char_idx": 0,
+    "end_char_idx": 1298,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]

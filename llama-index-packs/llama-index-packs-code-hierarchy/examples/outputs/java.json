@@ -1,0 +1,44 @@
+[
+  {
+    "id_": "55f3fa86-af59-4448-a031-ad39d2a3afd4",
+    "embedding": null,
+    "metadata": {
+      "language": "java",
+      "inclusive_scopes": [],
+      "start_byte": 0,
+      "end_byte": 1937,
+      "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-java-tags.java",
+      "file_name": "tree-sitter-java-tags.java",
+      "file_type": "text/x-java",
+      "file_size": 1937,
+      "creation_date": "2024-03-08",
+      "last_modified_date": "2024-03-08"
+    },
+    "excluded_embed_metadata_keys": [],
+    "excluded_llm_metadata_keys": [],
+    "relationships": {
+      "5": [],
+      "1": {
+        "node_id": "19303a85-ef0c-4bfd-af37-bc9d0b3e1ee6",
+        "node_type": "4",
+        "metadata": {
+          "file_path": "llama_index/packs/code_hierarchy/queries/tree-sitter-java-tags.java",
+          "file_name": "tree-sitter-java-tags.java",
+          "file_type": "text/x-java",
+          "file_size": 1937,
+          "creation_date": "2024-03-08",
+          "last_modified_date": "2024-03-08"
+        },
+        "hash": "51cf92d2476283cb40705aaec6007ea46e3dd1dcd360dc78c82e56313ef34f0b",
+        "class_name": "RelatedNodeInfo"
+      }
+    },
+    "text": "// Java Example showcasing various language structures\n\nimport java.util.ArrayList;\nimport java.util.List;\n\n// Class definition\npublic class Circle {\n    private double radius;\n\n    // Constructor\n    public Circle(double radius) {\n        this.radius = radius;\n    }\n\n    // Method\n    public double getArea() {\n        return Math.PI * radius * radius;\n    }\n\n    // Static method\n    public static double calculateArea(double radius) {\n        return Math.PI * radius * radius;\n    }\n}\n\n// Interface definition\ninterface Shape {\n    double getArea();\n}\n\n// Inheritance & implementing an interface\nclass Cylinder extends Circle implements Shape {\n    private double height;\n\n    // Constructor\n    public Cylinder(double radius, double height) {\n        super(radius); // Calling the superclass constructor\n        this.height = height;\n    }\n\n    // Overriding method\n    @Override\n    public double getArea() {\n        // Surface area of the cylinder\n        return 2 * Math.PI * getRadius() * height + 2 * super.getArea();\n    }\n\n    // New method\n    public double getVolume() {\n        return super.getArea() * height;\n    }\n}\n\n// Enum example\nenum Day {\n    MONDAY,\n    TUESDAY,\n    WEDNESDAY,\n    THURSDAY,\n    FRIDAY,\n    SATURDAY,\n    SUNDAY;\n}\n\n// Main class\npublic class Main {\n    public static void main(String[] args) {\n        Circle circle = new Circle(5);\n        System.out.println(\"Circle area: \" + circle.getArea());\n\n        Cylinder cylinder = new Cylinder(5, 10);\n        System.out.println(\"Cylinder area: \" + cylinder.getArea());\n        System.out.println(\"Cylinder volume: \" + cylinder.getVolume());\n\n        // Using enum\n        Day day = Day.MONDAY;\n        System.out.println(\"Day: \" + day);\n\n        // Using generics\n        List<String> list = new ArrayList<>();\n        list.add(\"Hello\");\n        list.add(\"Java\");\n        for (String s : list) {\n            System.out.println(s);\n        }\n    }\n}\n",
+    "start_char_idx": 0,
+    "end_char_idx": 1937,
+    "text_template": "{metadata_str}\n\n{content}",
+    "metadata_template": "{key}: {value}",
+    "metadata_seperator": "\n",
+    "class_name": "TextNode"
+  }
+]
