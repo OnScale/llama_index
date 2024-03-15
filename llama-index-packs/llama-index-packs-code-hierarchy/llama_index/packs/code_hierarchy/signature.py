@@ -120,7 +120,7 @@ DEFAULT_SIGNATURE_IDENTIFIERS: SignatureIdentifiersByLanguageByNodeType = {
 
 def get_node_name(
     node: Node,
-    signature_identifiers: SignatureIdentifiersByLanguageByNodeType = DEFAULT_SIGNATURE_IDENTIFIERS,
+    signature_identifiers: SignatureIdentifiersByNodeType,
 ) -> str:
     """Get the name of a tree sitter node."""
     signature_identifier = signature_identifiers[node.type]
@@ -141,7 +141,7 @@ def get_node_name(
 def get_node_signature(
     text: str,
     node: Node,
-    signature_identifiers: SignatureIdentifiersByLanguageByNodeType = DEFAULT_SIGNATURE_IDENTIFIERS,
+    signature_identifiers: SignatureIdentifiersByNodeType,
 ) -> str:
     """Get the signature of a tree sitter node."""
     signature_identifier = signature_identifiers[node.type]

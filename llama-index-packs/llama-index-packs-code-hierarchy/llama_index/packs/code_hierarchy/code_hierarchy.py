@@ -3,6 +3,11 @@ from llama_index.packs.code_hierarchy.signature import (
     DEFAULT_SIGNATURE_IDENTIFIERS,
     SignatureCaptureOptions,
     SignatureIdentifiersByNodeType,
+    get_node_name,
+    get_node_signature,
+)
+from llama_index.packs.code_hierarchy.comments import (
+    get_replacement_text,
 )
 from tree_sitter import Node
 from typing import Any, Dict, List, Optional, Sequence, Tuple
@@ -158,9 +163,15 @@ class CodeHierarchyNodeParser(NodeParser):
             # Get the new context
             if not _root:
                 new_context = _ScopeItem(
-                    name=self.get_node_name(parent),
+                    name=get_node_name(
+                        node=parent, signature_identifiers=self.signature_identifiers
+                    ),
                     type=parent.type,
-                    signature=self.get_node_signature(text=text, node=parent),
+                    signature=get_node_signature(
+                        text=text,
+                        node=parent,
+                        signature_identifiers=self.signature_identifiers,
+                    ),
                 )
                 _context_list.append(new_context)
             this_document = TextNode(
@@ -454,7 +465,7 @@ class CodeHierarchyNodeParser(NodeParser):
             raise ValueError("The child node is not a child of the parent node.")
 
         # Now do the replacement
-        replacement_text = cls._get_replacement_text(child_node=child_node)
+        replacement_text = get_replacement_text(child_node=child_node)
         parent_node.text = parent_node.text.replace(child_node.text, replacement_text)
 
     @classmethod
